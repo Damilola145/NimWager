@@ -1,6 +1,6 @@
 import { Router, type Request, type Response } from 'express';
 import { v4 as uuidv4 } from 'uuid';
-import { Nimiq } from '@nimiq/core';
+import { Signature, PublicKey, Hash, BufferUtils } from '@nimiq/core';
 
 import { games, pendingNonces, recordHistory } from '../storage';
 import { GAME_TIMEOUT_MS } from '../config';
