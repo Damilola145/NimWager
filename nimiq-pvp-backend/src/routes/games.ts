@@ -34,7 +34,7 @@ function verifySignature(
     const fullMessage = prefix + message.length + message;
     const dataBytes = BufferUtils.fromUtf8(fullMessage);
     const hash = Hash.computeSha256(dataBytes);
-    return signature.verify(publicKey, hash);
+    return publicKey.verify(signature, hash);
   } catch (err) {
     console.error('Signature verification failed:', err);
     return false;
