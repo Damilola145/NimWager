@@ -1,17 +1,21 @@
-import { Nimiq } from '@nimiq/core';
+import { Client, ClientConfiguration } from '@nimiq/core';
 import { RPC_URL, NETWORK } from './config';
 
-let client: InstanceType<typeof Nimiq.Client> | null = null;
+let client: Client | null = null;
 
 export async function initNimiq(): Promise<void> {
-  client = new Nimiq.Client({
-    network: NETWORK === 'main' ? 'main' : 'test',
-    rpcUrl: RPC_URL,
-  } as never);
+  const config = new ClientConfiguration();
+  config.network(NETWORK === 'main' ? 'MainAlbatross' : 'TestAlbatross');
+  config.logLevel('info');
+  // If you're using a custom RPC endpoint, set it on the config:
+  // config.rpcUrl?.(RPC_URL); // check v2 API for exact method name
+
+  client = await Client.create(config.build());
+  await client.waitForConsensusEstablished();
   console.log(`Nimiq client initialized (network=${NETWORK})`);
 }
 
-export function getClient(): InstanceType<typeof Nimiq.Client> {
+export function getClient(): Client {
   if (!client) throw new Error('Nimiq client not initialized');
   return client;
 }
