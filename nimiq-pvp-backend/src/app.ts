@@ -9,16 +9,21 @@ import { verifyRouter } from './routes/verify';
 import { playersRouter } from './routes/players';
 import cors from 'cors';
 
-app.use(cors({
-  origin: [
-    'http://localhost:5173',              // local dev
-    'https://nimwager-frontend4.onrender.com/', // deployed
-  ],
-  credentials: true,
-}));
+const allowedOrigins = [
+  'http://localhost:5173',
+  'https://nimwager.onrender.com', // <- put your real frontend URL here
+];
 
 export function buildApp(): Express {
   const app = express();
+  
+  app.use(
+    cors({
+      origin: allowedOrigins,
+      credentials: true,
+    }),
+  );
+  
   app.use(express.json({ limit: '1mb' }));
 
   app.use('/api/auth', authRouter);
