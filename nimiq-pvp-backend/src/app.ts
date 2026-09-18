@@ -7,6 +7,15 @@ import { authRouter } from './routes/auth';
 import { gamesRouter } from './routes/games';
 import { verifyRouter } from './routes/verify';
 import { playersRouter } from './routes/players';
+import cors from 'cors';
+
+app.use(cors({
+  origin: [
+    'http://localhost:5173',              // local dev
+    'https://nimwager-frontend4.onrender.com/', // deployed
+  ],
+  credentials: true,
+}));
 
 export function buildApp(): Express {
   const app = express();
