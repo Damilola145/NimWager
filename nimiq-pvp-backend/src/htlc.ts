@@ -1,10 +1,10 @@
-import { Nimiq } from '@nimiq/core';
+import { Transaction } from '@nimiq/core';
+import { BufferUtils } from '@nimiq/core';
 import { getClient } from './nimiq';
 
 export async function broadcastSignedTx(signedTxHex: string): Promise<string> {
-  const tx = Nimiq.Transaction.unserialize(
-    Nimiq.BufferUtils.fromHex(signedTxHex),
-  );
-  const details = await getClient().sendTransaction(tx);
+  const client = getClient();
+  const tx = Transaction.unserialize(BufferUtils.fromHex(signedTxHex));
+  const details = await client.sendTransaction(tx);
   return details.hash.toString();
 }
