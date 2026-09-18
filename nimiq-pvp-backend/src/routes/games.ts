@@ -28,12 +28,12 @@ function verifySignature(
   publicKeyHex: string,
 ): boolean {
   try {
-    const signature = Nimiq.Signature.fromHex(signatureHex);
-    const publicKey = Nimiq.PublicKey.fromHex(publicKeyHex);
+    const signature = Signature.fromHex(signatureHex);
+    const publicKey = PublicKey.fromHex(publicKeyHex);
     const prefix = '\x16Nimiq Signed Message:\n';
     const fullMessage = prefix + message.length + message;
-    const dataBytes = Nimiq.BufferUtils.fromUtf8(fullMessage);
-    const hash = Nimiq.Hash.computeSha256(dataBytes);
+    const dataBytes = BufferUtils.fromUtf8(fullMessage);
+    const hash = Hash.computeSha256(dataBytes);
     return signature.verify(publicKey, hash);
   } catch (err) {
     console.error('Signature verification failed:', err);
